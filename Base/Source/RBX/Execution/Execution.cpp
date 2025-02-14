@@ -1,15 +1,5 @@
 #include "Execution.hpp"
 
-void CExecution::SetProtoCaps(Proto* Parent, uintptr_t* Caps) {
-    if (!Parent)
-        return;
-
-    Parent->userdata = Caps;
-
-    for (int i = 0; i < Parent->sizep; i++)
-        SetProtoCaps(Parent->p[i], Caps);
-}
-
 lua_State* CExecution::NewThread(lua_State* L) {
     if (L == nullptr || L->tt != LUA_TTHREAD)
         return nullptr;
@@ -86,7 +76,7 @@ void CExecution::Send(lua_State* L, std::string Source, bool Compile, int Yield)
     lua_pop(Thread, 1);
 
     std::string Script = Compile ? CompileScript(Source) : Source;
-    int LoadResult = RBX::LuaVM__Load(Thread, &Script, "@Argon", 0);
+    int LoadResult = RBX::LuaVM__Load(Thread, &Script, "@Base", 0);
 
     if (LoadResult == LUA_OK) {
         if (Closure* Cl = clvalue(luaA_toobject(Thread, -1))) {
