@@ -37,8 +37,6 @@ class CBytecodeEncoder : public Luau::BytecodeEncoder {
 
 class CExecution {
 public:
-    void SetProtoCaps(Proto* Parent, uintptr_t* Caps);
-
     lua_State* NewThread(lua_State* L);
     void Send(lua_State* L, std::string Source, bool Compile = true, int Yield = 0);
 
